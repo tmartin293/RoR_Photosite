@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 3px;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
+  </style>
+</head>
+
+<body>
+<h1>PhotoSite User List</h1>
+<p>There are <%= @num_users %> users:</p>
+<table>
+  <tr>
+    <th>User Id</th>
+    <th>User Name</th>
+  </tr>
+  <% @users_all.each { |user| %>
+    <% user_full_name = user.first_name + " " + user.last_name %>
+    <tr>
+      <td><%= user.id %></td>
+      <td><%= link_to(user_full_name, {:controller => :photos, :action => :show, :user_id => user.id}) %></td>
+    </tr>
+  <%  } %>
+</table>
+</body>
+</html>

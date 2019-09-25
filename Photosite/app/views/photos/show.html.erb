@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 3px;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
+  </style>
+</head>
+
+<body>
+<h1>Photos for <%= @user.first_name %> <%= @user.last_name %>:</h1>
+<% @photos_all.each { |photo| %>
+  <p><%= image_tag(photo.file_name) %></p>
+  <p>Photo created at: <%= photo.date_time %></p>
+  <% comments = Comment.where("photo_id = ?", photo.id) %>
+  <table>
+    <tr>
+      <th>Comment Creation Time   </th>
+      <th>User Name   </th>
+      <th>Comment</th>
+    </tr>
+    <% comments.each { |comment| %>
+      <% comment_user = User.find_by(id: comment.user_id) %>
+      <% comment_user_name = comment_user.first_name + " " + comment_user.last_name %>
+      <tr>
+        <td><%= comment.date_time %></td>
+        <td><%= link_to(comment_user_name, {:controller => :photos, :action => :show, :user_id => comment.user_id}) %></td>
+        <td><%= comment.comment_text %></td>
+      </tr>
+    <% } %>
+  </table>
+  <br>
+  <br>
+  <br>
+<%  } %>
+</body>
+</html>
